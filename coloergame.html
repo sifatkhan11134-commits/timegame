@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gaming Guess Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 80px;
+      padding: 30px;
+    }
+
+    .box {
+      background: #111;
+      padding: 30px;
+      width: 320px;
+      margin: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffcc;
+    }
+
+    h2 {
+      color: #00ffcc;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin-top: 15px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: #00ffcc;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00cc99;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .timer {
+      font-size: 20px;
+      color: #ff4d4d;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="box">
+    <h2>🎮 Guess the Number</h2>
+
+    <div class="timer">⏱ Time: <span id="time">10</span>s</div>
+
+    <input type="number" id="guess" placeholder="Enter 1-10">
+
+    <br>
+
+    <button onclick="checkGuess()">🔥 Check</button>
+
+    <div class="msg" id="message"></div>
+  </div>
+</div>
+
+<script>
+let randomNumber = Math.floor(Math.random() * 10) + 1;
+let timeLeft = 10;
+
+let timer = setInterval(updateTimer, 1000);
+
+function updateTimer() {
+  timeLeft--;
+  document.getElementById("time").innerText = timeLeft;
+
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    document.getElementById("message").innerHTML = "⛔ Game Over!";
+  }
+}
+
+function checkGuess() {
+  if (timeLeft <= 0) return;
+
+  let userGuess = document.getElementById("guess").value;
+  let msg = document.getElementById("message");
+
+  if (userGuess == randomNumber) {
+    msg.innerHTML = "🎉 You Win!";
+    msg.style.color = "#00ffcc";
+    resetGame();
+  } 
+  else if (userGuess > randomNumber) {
+    msg.innerHTML = "📉 Too High!";
+    msg.style.color = "#ff4d4d";
+  } 
+  else {
+    msg.innerHTML = "📈 Too Low!";
+    msg.style.color = "#ffaa00";
+  }
+}
+
+function resetGame() {
+  randomNumber = Math.floor(Math.random() * 10) + 1;
+  timeLeft = 10;
+  document.getElementById("time").innerText = timeLeft;
+  clearInterval(timer);
+  timer = setInterval(updateTimer, 1000);
+}
+</script>
+
+</body>
+</html>
